@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PML Reading Labs</title>
+<meta name="description" content="Interactive study guides for Kevin P. Murphy's Probabilistic Machine Learning: An Introduction, built for BYU CS 473.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #f3f1ec; --surface: #ffffff; --sunk: #e9e5dc; --ink: #1d1b18; --muted: #5f5a52; --rule: #d9d3c6;
+  --a: #1f5fa8; --b: #c0392b; --c: #6a3fc1; --d: #1d7a49; --e: #a35d00;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12110f; --surface: #1b1a17; --sunk: #25231f; --ink: #ece7de; --muted: #a59e92; --rule: #35322c;
+    --a: #6ea8ec; --b: #f0776a; --c: #b393f2; --d: #52c48a; --e: #e2a34b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12110f; --surface: #1b1a17; --sunk: #25231f; --ink: #ece7de; --muted: #a59e92; --rule: #35322c;
+  --a: #6ea8ec; --b: #f0776a; --c: #b393f2; --d: #52c48a; --e: #e2a34b;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 72px; }
+@media (max-width: 600px) { .wrap { padding-inline: 16px; } }
+header { padding: 64px 0 36px; border-bottom: 1px solid var(--rule); }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(38px, 6.5vw, 72px); line-height: 1; letter-spacing: -.03em; margin: 12px 0 18px; text-wrap: balance; }
+h1 span { color: var(--c); }
+.lede { max-width: 62ch; color: var(--muted); font-size: 18.5px; margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 22px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+.meta b { color: var(--ink); font-weight: 600; }
+
+.chapter { margin-top: 44px; }
+.chapter h2 { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+.chapter h2::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
+@media (max-width: 400px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+.card { position: relative; display: grid; grid-template-rows: auto 1fr auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; color: inherit; text-decoration: none; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--ink); transform: translateY(-2px); }
+.card:focus-within { outline: 2px solid var(--c); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+.thumb { height: 128px; background: var(--sunk); border-bottom: 1px solid var(--rule); }
+.thumb svg { width: 100%; height: 100%; display: block; }
+.body { padding: 16px 18px 6px; }
+.sec { font-family: var(--mono); font-size: 12px; color: var(--accent); border: 1px solid currentColor; border-radius: 4px; padding: 1px 7px; display: inline-block; }
+.chn { font-family: var(--mono); font-size: 11.5px; color: var(--muted); margin-left: 10px; }
+.card h3 { font-family: var(--display); font-weight: 700; font-size: 23px; line-height: 1.15; letter-spacing: -.015em; margin: 10px 0 6px; }
+.card h3 a { color: inherit; text-decoration: none; }
+.card h3 a::after { content: ""; position: absolute; inset: 0; }
+.card p { margin: 0; font-size: 15.5px; color: var(--muted); }
+.foot { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px 14px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.foot .go { color: var(--accent); font-weight: 600; }
+.foot a.src { position: relative; z-index: 1; color: var(--muted); }
+.foot a.src:hover { color: var(--ink); }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">BYU CS 473 · Reading companions</div>
+    <h1>Probabilistic Machine Learning, <span>one interactive lab</span> per reading.</h1>
+    <p class="lede">Study guides for Kevin P. Murphy's <i>Probabilistic Machine Learning: An Introduction</i>. Each lab turns one reading into things you can drag, step through and break, with the book's equations worked slowly and a quiz to check yourself.</p>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <main id="labs"></main>
+
+  <footer>Built as study companions for Murphy, <i>Probabilistic Machine Learning: An Introduction</i> (MIT Press, 2022; CC-BY-NC-ND). Every lab is a single self-contained HTML page. The source for each is on <a href="https://github.com/isaackrallison" style="color:inherit">GitHub</a>.</footer>
+</div>
+
+<script>
+const LABS = [
+  { ch: 3, chName: 'Probability: multivariate models', sec: '§3.2', title: 'Reading the Bivariate Gaussian', repo: 'bivariate-gaussian', color: '--a', art: 'gauss',
+    blurb: 'Shape a 2-D normal distribution by hand and watch the contours, correlation and covariance matrix move together.' },
+  { ch: 4, chName: 'Statistics', sec: '§4.7.6', title: 'Reading the Bias-Variance Tradeoff', repo: 'bias-variance-tradeoff', color: '--b', art: 'bv',
+    blurb: 'Bias, variance, and why mean squared error splits cleanly into the two, live as you change the estimator.' },
+  { ch: 5, chName: 'Decision theory', sec: '§5.1.3', title: 'ROC Curve Lab', repo: 'roc-curve', color: '--d', art: 'roc',
+    blurb: 'Drag the threshold and watch the ROC point move, build a curve by hand, and keep TPR, FPR, TNR and FNR straight.' },
+  { ch: 6, chName: 'Information theory', sec: '§6.1–6.2', title: 'Entropy & KL Lab', repo: 'entropy-kl-divergence', color: '--e', art: 'kl',
+    blurb: 'Entropy, cross entropy, joint and conditional entropy, perplexity, and the KL divergence, including forward vs reverse KL.' },
+  { ch: 6, chName: 'Information theory', sec: '§6.3', title: 'Mutual Information Lab', repo: 'mutual-information', color: '--c', art: 'mi',
+    blurb: 'Joint distributions, information diagrams, conditional MI, the Gaussian case, data processing and sufficient statistics.' },
+  { ch: 8, chName: 'Optimization', sec: '§8.7', title: 'EM Algorithm Lab', repo: 'em-algorithm', color: '--b', art: 'em',
+    blurb: 'Bound optimization and EM: climb a lower bound, close the KL gap, and fit a Gaussian mixture to Old Faithful. Explained at four levels, from kid to grad.' }
+];
+
+const ART = {
+  gauss: c => `<g fill="none" stroke="var(${c})" stroke-width="2">${[1, 2, 3].map(k => `<ellipse cx="160" cy="64" rx="${34 * k}" ry="${12 * k}" transform="rotate(-24 160 64)" opacity="${1.15 - k * .3}"/>`).join('')}</g><circle cx="160" cy="64" r="4" fill="var(${c})"/>`,
+  bv: c => `<g fill="none" stroke="var(--muted)" stroke-width="1.5">${[14, 30, 46].map(r => `<circle cx="160" cy="64" r="${r}"/>`).join('')}</g>${[[182, 46], [190, 52], [178, 40], [196, 44], [186, 58], [176, 50]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4" fill="var(${c})"/>`).join('')}<circle cx="160" cy="64" r="3" fill="var(--ink)"/>`,
+  roc: c => `<line x1="100" y1="112" x2="220" y2="16" stroke="var(--muted)" stroke-dasharray="4 4"/><path d="M100,112 C104,50 140,22 220,16" fill="none" stroke="var(${c})" stroke-width="3"/><path d="M100,112 C104,50 140,22 220,16 L220,112Z" fill="var(${c})" opacity=".14"/><circle cx="122" cy="44" r="5" fill="var(${c})"/>`,
+  kl: c => `${[30, 54, 22, 12].map((h, i) => `<rect x="${108 + i * 28}" y="${110 - h * 1.6}" width="12" height="${h * 1.6}" rx="2" fill="var(${c})"/><rect x="${121 + i * 28}" y="${110 - [24, 30, 30, 26][i] * 1.6}" width="12" height="${[24, 30, 30, 26][i] * 1.6}" rx="2" fill="var(--muted)" opacity=".5"/>`).join('')}`,
+  mi: c => `<circle cx="140" cy="64" r="40" fill="var(--a)" opacity=".18" stroke="var(--a)" stroke-width="2"/><circle cx="182" cy="64" r="40" fill="var(--b)" opacity=".16" stroke="var(--b)" stroke-width="2"/><path d="M161,29.7 A40,40 0 0 1 161,98.3 A40,40 0 0 1 161,29.7Z" fill="var(${c})" opacity=".55"/>`,
+  em: c => { let o = '', b = ''; for (let x = 70; x <= 250; x += 3) { const t = (x - 160) / 60; o += (x === 70 ? 'M' : 'L') + x + ',' + (90 - 40 * Math.exp(-((t + .7) ** 2) * 2) - 52 * Math.exp(-((t - .8) ** 2) * 2.5)).toFixed(1); } for (let x = 110; x <= 230; x += 3) { const t = (x - 172) / 60; b += (x === 110 ? 'M' : 'L') + x + ',' + (44 + 180 * t * t).toFixed(1); } return `<path d="${o}" fill="none" stroke="var(${c})" stroke-width="2.5" stroke-dasharray="7 5"/><path d="${b}" fill="none" stroke="var(--a)" stroke-width="2.5"/><circle cx="172" cy="44" r="5" fill="var(--ink)"/>`; }
+};
+
+const main = document.getElementById('labs');
+const chapters = new Set(LABS.map(l => l.ch));
+main.innerHTML = `<section class="chapter"><h2>All labs, in reading order</h2><div class="grid">${LABS.map(l => `
+    <article class="card" style="--accent:var(${l.color})">
+      <div class="thumb"><svg viewBox="0 0 320 128" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${ART[l.art](l.color)}</svg></div>
+      <div class="body"><span class="sec">${l.sec}</span><span class="chn">Ch. ${l.ch} · ${l.chName}</span><h3><a href="/${l.repo}/">${l.title}</a></h3><p>${l.blurb}</p></div>
+      <div class="foot"><span class="go">Open lab →</span><a class="src" href="https://github.com/isaackrallison/${l.repo}">source</a></div>
+    </article>`).join('')}</div></section>`;
+document.getElementById('meta').innerHTML = `<span><b>${LABS.length}</b> labs</span><span><b>${chapters.size}</b> chapters</span><span>newest: <b>${LABS[LABS.length - 1].sec} ${LABS[LABS.length - 1].title}</b></span>`;
+</script>
+</body>
+</html>
