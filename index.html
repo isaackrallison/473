@@ -94,7 +94,9 @@ const LABS = [
   { ch: 6, chName: 'Information theory', sec: '§6.3', title: 'Mutual Information Lab', repo: 'mutual-information', color: '--c', art: 'mi',
     blurb: 'Joint distributions, information diagrams, conditional MI, the Gaussian case, data processing and sufficient statistics.' },
   { ch: 8, chName: 'Optimization', sec: '§8.7', title: 'EM Algorithm Lab', repo: 'em-algorithm', color: '--b', art: 'em',
-    blurb: 'Bound optimization and EM: climb a lower bound, close the KL gap, and fit a Gaussian mixture to Old Faithful. Explained at four levels, from kid to grad.' }
+    blurb: 'Bound optimization and EM: climb a lower bound, close the KL gap, and fit a Gaussian mixture to Old Faithful. Explained at four levels, from kid to grad.' },
+  { ch: 9, chName: 'Linear discriminant analysis', sec: '§9.3–9.4', title: 'Naive Bayes Lab', repo: 'naive-bayes', color: '--a', art: 'nb',
+    blurb: 'Score each clue on its own and multiply: a spam filter, digit classifier, Laplace smoothing, the link to logistic regression, and generative vs discriminative.' }
 ];
 
 const ART = {
@@ -103,6 +105,7 @@ const ART = {
   roc: c => `<line x1="100" y1="112" x2="220" y2="16" stroke="var(--muted)" stroke-dasharray="4 4"/><path d="M100,112 C104,50 140,22 220,16" fill="none" stroke="var(${c})" stroke-width="3"/><path d="M100,112 C104,50 140,22 220,16 L220,112Z" fill="var(${c})" opacity=".14"/><circle cx="122" cy="44" r="5" fill="var(${c})"/>`,
   kl: c => `${[30, 54, 22, 12].map((h, i) => `<rect x="${108 + i * 28}" y="${110 - h * 1.6}" width="12" height="${h * 1.6}" rx="2" fill="var(${c})"/><rect x="${121 + i * 28}" y="${110 - [24, 30, 30, 26][i] * 1.6}" width="12" height="${[24, 30, 30, 26][i] * 1.6}" rx="2" fill="var(--muted)" opacity=".5"/>`).join('')}`,
   mi: c => `<circle cx="140" cy="64" r="40" fill="var(--a)" opacity=".18" stroke="var(--a)" stroke-width="2"/><circle cx="182" cy="64" r="40" fill="var(--b)" opacity=".16" stroke="var(--b)" stroke-width="2"/><path d="M161,29.7 A40,40 0 0 1 161,98.3 A40,40 0 0 1 161,29.7Z" fill="var(${c})" opacity=".55"/>`,
+  nb: c => `<ellipse cx="128" cy="62" rx="44" ry="22" fill="var(--b)" opacity=".14" stroke="var(--b)" stroke-width="2"/><ellipse cx="196" cy="66" rx="20" ry="40" fill="var(${c})" opacity=".14" stroke="var(${c})" stroke-width="2"/><path d="M128,54v16M120,62h16" stroke="var(--ink)" stroke-width="2.5"/><path d="M196,58v16M188,66h16" stroke="var(--ink)" stroke-width="2.5"/>`,
   em: c => { let o = '', b = ''; for (let x = 70; x <= 250; x += 3) { const t = (x - 160) / 60; o += (x === 70 ? 'M' : 'L') + x + ',' + (90 - 40 * Math.exp(-((t + .7) ** 2) * 2) - 52 * Math.exp(-((t - .8) ** 2) * 2.5)).toFixed(1); } for (let x = 110; x <= 230; x += 3) { const t = (x - 172) / 60; b += (x === 110 ? 'M' : 'L') + x + ',' + (44 + 180 * t * t).toFixed(1); } return `<path d="${o}" fill="none" stroke="var(${c})" stroke-width="2.5" stroke-dasharray="7 5"/><path d="${b}" fill="none" stroke="var(--a)" stroke-width="2.5"/><circle cx="172" cy="44" r="5" fill="var(--ink)"/>`; }
 };
 
